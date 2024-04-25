@@ -1,0 +1,368 @@
+<ChooseWay>:
+    name: "choose way"
+    FloatLayout:
+        Image:
+            source: "images/background_choose_way.webp"
+            pos: 0, 0
+            allow_stretch: True
+            keep_ratio: False
+        Label:
+            text: "Do you want to Sign In or Sign Up?"
+            pos_hint: {"center_x": .5, "center_y": .8}
+            size_hint: .4, .2
+            font_size: root.num_for_x - 25 # i want bold
+            color: "black"
+        Button:
+            text: "Sign In"
+            pos_hint: {"center_x": .3, "center_y": .5}
+            size_hint: root.buttons_width_hint, .065
+            background_normal: ""
+            background_color: "#7a49a5"
+            on_press: root.change_screen_on_sign_in()
+        Button:
+            text: "Sign Up"
+            pos_hint: {"center_x": .7, "center_y": .5}
+            size_hint: root.buttons_width_hint, .065
+            background_normal: ""
+            background_color: "#03989e"
+            on_press: root.change_screen_on_sign_up()
+<SignUp>:
+    name: "sign up"
+    his_name: his_name
+    username: username
+    password: password
+    confirmpassword: confirmpassword
+    slider_numeric: slider_numeric
+
+    FloatLayout:
+        id: main_sign_up_layout
+        size: root.size
+        canvas.after:
+            Color:
+                rgba: 0, 0, 0, 1
+            Line:
+                points: [self.width * (root.x_pos_hint - root.line_width_2/2), self.height * root.y_pos_hint, self.width * (root.x_pos_hint + root.line_width_2/2), self.height * root.y_pos_hint]
+                width: 3
+            Line:
+                points: [self.width * (root.x_pos_hint - root.line_width_2/2), self.height * (root.y_pos_hint - root.diff_y), self.width * (root.x_pos_hint + root.line_width_2/2), self.height * (root.y_pos_hint - root.diff_y)]
+                width: 3
+            Line:
+                points: [self.width * (root.x_pos_hint - root.line_width_2/2), self.height * (root.y_pos_hint - root.diff_y * 2), self.width * (root.x_pos_hint + root.line_width_2/2), self.height * (root.y_pos_hint - root.diff_y * 2)]
+                width: 3
+            Line:
+                points: [self.width * (root.x_pos_hint - root.line_width_2/2), self.height * (root.y_pos_hint - root.diff_y * 3), self.width * (root.x_pos_hint + root.line_width_2/2), self.height * (root.y_pos_hint - root.diff_y * 3)]
+                width: 3
+        Image: 
+            source: "images/background_sign_up.jpg"
+            allow_stretch: True
+            keep_ratio: False
+        Label:
+            color: "black"
+            text: "Sign Up"
+            pos_hint: {"center_x": .5, "center_y": .85}
+            font_size: root.num_for_x
+        TextInput:
+            id: his_name
+            size_hint: root.line_width_2, root.y_size_hint
+            pos_hint: {"center_x": root.x_pos_hint, "y": root.y_pos_hint}
+            background_color: 0, 0, 0, 0
+            font_size: int(root.height * root.y_size_hint - 30)
+            multiline: False
+            text: root.name_title
+            foreground_color: "grey"
+            on_focus: root.check_text_input_un_click_click(his_name, root.name_title)
+            halign: root.hal
+            valign: root.val
+            on_text: root.check_len(root.name_user_number_min, root.name_number_max, his_name)
+        TextInput:
+            id: username
+            size_hint: root.line_width_2, root.y_size_hint
+            pos_hint: {"center_x": root.x_pos_hint, "y": root.y_pos_hint - root.diff_y}
+            background_color: 0, 0, 0, 0
+            font_size: int(root.height * root.y_size_hint - 30)
+            multiline: False
+            text: root.username_title
+            foreground_color: "grey"
+            on_focus: root.check_text_input_un_click_click(username, root.username_title)
+            halign: root.hal
+            valign: root.val
+            on_text: root.check_len(root.name_user_number_min, root.user_number_max, username)
+        TextInput:
+            id: password
+            size_hint: root.line_width_2, root.y_size_hint
+            pos_hint: {"center_x": root.x_pos_hint, "y": root.y_pos_hint - root.diff_y * 2}
+            background_color: 0, 0, 0, 0
+            font_size: int(root.height * root.y_size_hint - 30)
+            multiline: False
+            text: root.pass_title
+            foreground_color: "grey"
+            on_focus: root.check_text_input_un_click_click(password, root.pass_title)
+            halign: root.hal
+            valign: root.val
+            on_text: root.check_len(root.pass_number_min, root.pass_number_max, password)
+        TextInput:
+            id: confirmpassword
+            size_hint: root.line_width_2, root.y_size_hint
+            pos_hint: {"center_x": root.x_pos_hint, "y": root.y_pos_hint - root.diff_y * 3}
+            background_color: 0, 0, 0, 0
+            font_size: int(root.height * root.y_size_hint - 30)
+            multiline: False
+            text: root.confirm_pass_title
+            foreground_color: "grey"
+            on_focus: root.check_text_input_un_click_click(confirmpassword, root.confirm_pass_title)
+            halign: root.hal
+            valign: root.val
+            on_text: root.check_len(root.pass_number_min, root.pass_number_max, confirmpassword)
+        Label:
+            color: "red"
+            text: root.error_text
+            pos_hint: {"center_x": .5, "center_y": .28}
+        Button:
+            text: "Sign Up"
+            pos_hint: {"center_x": .5, "center_y": .22}
+            size_hint: root.but_pos_x_hint, .05
+            on_press: root.sign_up_button(his_name, username, password, confirmpassword)
+            disabled: root.button_disabled
+            background_normal: ""
+            background_color: (1, 0.6, 0.6, 1)
+        Label:
+            color: "grey"
+            text: "0" if his_name.text == "Name" else str(len(his_name.text) - root.num_of_space - root.num_of_dashnik)
+            size_hint: None, None
+            size: 80, 0
+            pos_hint: {"x": root.x_pos_hint + root.line_width_2/2, "center_y": root.y_pos_hint + .016}
+        Label:
+            color: his_name.foreground_color
+            text: f"{root.name_user_number_min}-{root.name_number_max}"
+            size_hint: None, None
+            size: 80, 0
+            pos_hint: {"x": root.x_pos_hint + root.line_width_2/2, "center_y": root.y_pos_hint - .016}
+        Label:
+            color: "grey"
+            text: "0" if username.text == "Username" else str(len(username.text))
+            size_hint: None, None
+            size: 80, 0
+            pos_hint: {"x": root.x_pos_hint + root.line_width_2/2, "center_y": root.y_pos_hint - root.diff_y + .016}
+        Label:
+            color: username.foreground_color
+            text: f"{root.name_user_number_min}-{root.user_number_max}"
+            size_hint: None, None
+            size: 80, 0
+            pos_hint: {"x": root.x_pos_hint + root.line_width_2/2, "center_y": root.y_pos_hint - root.diff_y  - .016}
+        Label:
+            color: "grey"
+            text: "0" if password.text == "Password" else str(len(password.text))
+            size_hint: None, None
+            size: 80, 0
+            pos_hint: {"x": root.x_pos_hint + root.line_width_2/2, "center_y": root.y_pos_hint - root.diff_y * 2 + .016}
+        Label:
+            color: password.foreground_color
+            text: f"{root.pass_number_min}-{root.pass_number_max}"
+            size_hint: None, None
+            size: 80, 0
+            pos_hint: {"x": root.x_pos_hint + root.line_width_2/2, "center_y": root.y_pos_hint - root.diff_y * 2  - .016}
+        Label:
+            color: "grey"
+            text: "0" if confirmpassword.text == "Confirm password" else str(len(confirmpassword.text))
+            size_hint: None, None
+            size: 80, 0
+            pos_hint: {"x": root.x_pos_hint + root.line_width_2/2, "center_y": root.y_pos_hint - root.diff_y * 3 + .016}
+        Label:
+            color: confirmpassword.foreground_color
+            text: f"{root.pass_number_min}-{root.pass_number_max}"
+            size_hint: None, None
+            size: 80, 0
+            pos_hint: {"x": root.x_pos_hint + root.line_width_2/2, "center_y": root.y_pos_hint - root.diff_y * 3  - .016}
+        Button:
+            id: button_sign_up_back
+            center_hint_x: None
+            pos_hint: {"center_y": .95}
+            x: 30
+            size_hint: None, .05
+            background_color: 0, 0, 0, 0
+            on_press: root.back_on_screen()
+            on_release: root.back_on_screen_release()
+
+            Image:
+                id: the_sign_up_back_image
+                source: "images/back.png"
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+
+        TextInput:
+            id: age_input
+            text: str(int(root.slider_numeric.value))
+            font_size: 30
+            size_hint: (None, None)
+            size: "40dp", "25dp"
+            pos_hint: {"center_x": .5, "center_y": root.y_pos_hint - root.diff_y * 3.4}
+            multiline: False
+            on_text: root.control_age_len(age_input)
+            input_filter: "int"
+            write_tab: False
+            on_text_validate: root.on_set_age(age_input)
+            halign: "center"
+            valign: "middle"
+            foreground_color: "white"
+            background_color: 0, 0, 0, 1
+        
+        Label:
+            color: "black"
+            text: "Your age:"
+            size_hint: None, None
+            font_size: 30
+            center_hint_x: None
+            #center_hint_y:root.y_pos_hint - root.diff_y * 3.85
+            pos_hint: {"center_y": root.y_pos_hint - root.diff_y * 3.85}
+            x: slider_numeric.pos[0] - self.width - 40
+        
+        Slider:
+            orientation: "horizontal"
+            id: slider_numeric
+            size_hint: root.slider_width, .05
+            value_track: True
+            value_track_color: 0, 1, 0, 1
+            min: 1
+            max: 131
+            pos_hint: {"center_x": .5, "y": root.y_pos_hint - root.diff_y * 4.1}
+<SignIn>:
+    name: "sign in"
+    username2: username2
+    password2: password2
+
+    FloatLayout:
+        canvas.after:
+            Color:
+                rgba: 0, 0, 0, 1
+            Line:
+                points: self.width * (root.x_pos_hint - root.line_width/2), self.height * root.y_pos_hint, self.width * (root.x_pos_hint + root.line_width/2), self.height * root.y_pos_hint
+                width: 3
+            Line:
+                points: self.width * (root.x_pos_hint - root.line_width/2), self.height * (root.y_pos_hint - root.diff_y), self.width * (root.x_pos_hint + root.line_width/2), self.height * (root.y_pos_hint - root.diff_y)
+                width: 3
+
+        Image:
+            source: "images/background_sign_in.jpg"
+            allow_stretch: True
+            keep_ratio: False
+        Label:
+            color: "black"
+            text: "Sign In"
+            pos_hint: {"center_x": .5, "center_y": .78}
+            font_size: root.num_for_x
+
+        TextInput:
+            id: username2
+            text: root.name_user_title
+            foreground_color: "white"
+            multiline: False
+            size_hint: root.line_width, root.y_size_hint
+            pos_hint: {"center_x": root.x_pos_hint, "y": root.y_pos_hint}
+            font_size: int(root.height * root.y_size_hint - 30)
+            background_color: 0, 0, 0, 0
+            on_focus: root.check_text_input_un_click_click_2(username2, root.name_user_title)
+            halign: root.hal2
+            valign: root.val2
+            on_text: root.on_write_text_input(root.name_user_number_min, root.name_user_number_max, username2)
+        TextInput:
+            id: password2
+            text: root.pass_title
+            foreground_color: "white"
+            multiline: False
+            size_hint: root.line_width, root.y_size_hint
+            pos_hint: {"center_x": root.x_pos_hint, "y": root.y_pos_hint - root.diff_y}
+            font_size: int(root.height * root.y_size_hint - 30)
+            background_color: 0, 0, 0, 0
+            on_focus: root.check_text_input_un_click_click_2(password2, root.pass_title)
+            halign: root.hal2
+            valign: root.val2
+            on_text: root.on_write_text_input(root.pass_number_min, root.pass_number_max, password2)
+        Button:
+            text: "Sign In"
+            pos_hint: {"center_x": .5, "center_y": .35}
+            size_hint: root.but_pos_x_hint, .05
+            on_press: root.sign_in_button()
+            disabled: root.button_disabled
+        Button:
+            id: button_sign_in_back
+            center_hint_x: None
+            pos_hint: {"center_y": .95}
+            x: 30
+            size_hint: None, .05
+            background_color: 0, 0, 0, 0
+            on_press: root.back_on_screen_2()
+            on_release: root.back_on_screen_release_2()
+
+            Image:
+                id: the_sign_in_back_image
+                source: "images/back.png"
+                center_x: self.parent.center_x
+                center_y: self.parent.center_y
+
+<BetweenScreens>:
+    name: "between"
+    menu_button: menu_button
+    Button:
+        id: menu_button
+        text: "Back to the menu"
+        pos_hint: {"center_x":.5, "center_y": .3}
+        size_hint: .4, .07
+        on_press: root.back_to_menu()
+    Label:
+        pos_hint: {"center_x": .5, "center_y": .7}
+        color: "white"
+        text: root.main_text
+
+<TheAppScreen>:
+    name: "application"
+    FloatLayout:
+        size: self.size
+        pos: self.pos
+
+        canvas.before:
+            Rectangle:
+                size: self.size
+        
+    AsyncImage:
+        id: imageasync
+        source: "https://a.allegroimg.com/original/11905f/98e6b78a48e581aef5c53fe3e467/Obraz-dekorace-napis-Welcome-Back-Vibes-70-cm"
+        size_hint: .75, None
+        size: 0, 0
+        height: 600
+        pos_hint: {'center_x': 0.5, 'top': 1}
+    Label:
+        color: "black"
+        text: root.main_title
+        font_size: 60
+        size_hint: None, None
+        center_hint_y: None
+        pos_hint: {"center_x": .5}
+        top: imageasync.pos[1] + 80
+        halign: "center"
+        #font_name: "fonts/name.ttf"
+    Button:
+        text: "sign out"
+        on_press: root.sign_out()
+        center_hint_y: None
+        pos_hint: {"right": .95}
+        top: root.height - 60
+        background_color: 0, 0, 0, 1
+        size_hint: None, None
+        size: "90dp", "35dp"
+    Button:
+        text: "Delete account"
+        on_press: root.cancel_account()
+        center_hint_y: None
+        pos_hint: {"x": .05}
+        top: root.height - 60
+        background_color: 0, 0, 0, 1
+        size_hint: None, None
+        font_size: "13dp"
+        size: "100dp", "35dp"
+    Label:
+        id: time_label
+        color: "black"
+        text: "Čas:"
+        size_hint: None, None
+        pos_hint: {"right": .95, "top": 1}
+        size: "90dp", "35dp"
